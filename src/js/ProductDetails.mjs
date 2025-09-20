@@ -1,4 +1,4 @@
-import { dataSource, productId } from "./product.js";
+// import { dataSource, productId } from "./product.js";
 
 export default class ProductDetails {
   constructor(productId, dataSource) {
