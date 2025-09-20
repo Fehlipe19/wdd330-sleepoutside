@@ -8,13 +8,14 @@ export default class ProductDetails {
   }
   async init() {
     // ****
-    console.log(this.productId);
+    // console.log(this.productId);
     this.product = await this.dataSource.findProductById(this.productId);
-    console.log(this.product);
+    // console.log(this.product);
     this.renderProductDetails();
     document
       .getElementById("addToCart")
-      .addEventListener("click", this.addToCart.bind(this));
+      .addEventListener("click", this.addProductToCart.bind(this));
+    // console.log(this);
   }
   addProductToCart() {
     const myCart = getLocalStorage("so-cart") || [];
@@ -38,8 +39,8 @@ function productDetailsTemplate(product) {
   document.getElementById("productPrice").textContent = product.FinalPrice;
   document.getElementById("productColor").textContent =
     product.Colors[0].ColorName;
-  document.getElementById("productDesc").textContent =
-    product.DescriptionHtmlSimple;
+  document.getElementById("productDesc").innerHTML =
+    `${product.DescriptionHtmlSimple}`;
 
   document.getElementById("addToCart").dataset.id = product.Id;
 }
