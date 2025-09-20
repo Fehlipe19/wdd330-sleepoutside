@@ -50,6 +50,5 @@ function renderCartTotal(cartList) {
 
   totalDisplaySection.appendChild(totalElement);
 }
-//console.log("test")
 
 renderCartContents();
