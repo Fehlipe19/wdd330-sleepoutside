@@ -1,4 +1,4 @@
-// import { dataSource, productId } from "./product.js";
+import { getLocalStorage, setLocalStorage } from "./utils.mjs";
 
 export default class ProductDetails {
   constructor(productId, dataSource) {
@@ -7,7 +7,10 @@ export default class ProductDetails {
     this.dataSource = dataSource;
   }
   async init() {
-    this.product = await this.dataSource.findProductById(this.product);
+    // ****
+    console.log(this.productId);
+    this.product = await this.dataSource.findProductById(this.productId);
+    console.log(this.product);
     this.renderProductDetails();
     document
       .getElementById("addToCart")
@@ -24,6 +27,7 @@ export default class ProductDetails {
 }
 
 function productDetailsTemplate(product) {
+  //   console.log(product);
   document.querySelector("h2").textContent = product.Brand.Name;
   document.querySelector("h3").textContent = product.NameWithoutBrand;
 
