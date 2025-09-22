@@ -7,15 +7,11 @@ export default class ProductDetails {
     this.dataSource = dataSource;
   }
   async init() {
-    // ****
-    // console.log(this.productId);
     this.product = await this.dataSource.findProductById(this.productId);
-    // console.log(this.product);
     this.renderProductDetails();
     document
       .getElementById("addToCart")
       .addEventListener("click", this.addProductToCart.bind(this));
-    // console.log(this);
   }
   addProductToCart() {
     const myCart = getLocalStorage("so-cart") || [];
