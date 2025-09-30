@@ -1,5 +1,6 @@
 function convertToJson(res) {
   if (res.ok) {
+    // console.log(res);
     return res.json();
   } else {
     throw new Error("Bad Response");
@@ -9,12 +10,15 @@ function convertToJson(res) {
 export default class ProductData {
   constructor(category) {
     this.category = category;
-    this.path = `../public/json/${this.category}.json`;
+    this.path = `/json/${this.category}.json`;
   }
   getData() {
+    console.log(this.path);
     return fetch(this.path)
       .then(convertToJson)
-      .then((data) => data);
+      .then((data) => {
+        return data;
+      });
   }
   async findProductById(id) {
     const products = await this.getData();
