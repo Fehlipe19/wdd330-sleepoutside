@@ -1,42 +1,70 @@
 import { getLocalStorage, setLocalStorage } from "./utils.mjs";
-
 export default class ProductDetails {
   constructor(productId, dataSource) {
     this.productId = productId;
-    this.product = {};
     this.dataSource = dataSource;
+    this.product = {};
   }
+
   async init() {
-    this.product = await this.dataSource.findProductById(this.productId);
-    this.renderProductDetails();
+    const product = await this.dataSource.findProductById(this.productId);
+    this.product = product;
+    // console.log(product);
+    this.renderProductDetails(product);
+    this.handleBrandCrumbs();
+
     document
       .getElementById("addToCart")
-      .addEventListener("click", this.addProductToCart.bind(this));
+      .addEventListener("click", () => this.addToCart(product));
   }
-  addProductToCart() {
-    const myCart = getLocalStorage("so-cart") || [];
-    myCart.push(this.product);
-    setLocalStorage("so-cart", myCart);
+
+  addToCart(product) {
+    const productList = getLocalStorage("so-cart") || [];
+
+    productList.push(product);
+
+    setLocalStorage("so-cart", productList);
+
+    // Load cartSuperscript
+    // cartSuperscript();
   }
-  renderProductDetails() {
-    productDetailsTemplate(this.product);
+
+  handleBrandCrumbs() {
+    const breadcrumbsElement = document.querySelector("#breadcrumbs");
+    breadcrumbsElement.innerHTML = `<span class="path">${this.product.Category}</span>`;
   }
-}
 
-function productDetailsTemplate(product) {
-  //   console.log(product);
-  document.querySelector("h2").textContent = product.Brand.Name;
-  document.querySelector("h3").textContent = product.NameWithoutBrand;
+  // Added suggested retail price and list price on line 36-39
+  renderProductDetails(product) {
+    const discountPercentage =
+      ((product.SuggestedRetailPrice - product.ListPrice) /
+        product.SuggestedRetailPrice) *
+      100;
+    const detailsElement = document.querySelector(".product-detail");
+    detailsElement.innerHTML = `
+        <h3>${product.Brand.Name}</h3>
+        <h2 class="divider">${product.NameWithoutBrand}</h2>
+        <img
+          class="divider"
+          src="${product.Images.PrimaryLarge}"
+          alt="${product.Name}"
+        />
+    <p class="product-card__price">
+      <span class="product-card__original-price">$${product.SuggestedRetailPrice.toFixed(2)}</span>
+      <span class="product-card__discount-price">${product.ListPrice}</span>
+      <div class="discount-flag">
+        <span>Save ${discountPercentage.toFixed(0)}%</span>
+      </div>
+    </p>
+        <p class="product__color">${product.Colors[0].ColorName}</p>
 
-  const productImage = document.getElementById("productImage");
-  productImage.src = product.Image;
-  productImage.alt = product.nameWithoutBrand;
+        <p class="product__description">
+          ${product.DescriptionHtmlSimple}
+        </p>
 
-  document.getElementById("productPrice").textContent = product.FinalPrice;
-  document.getElementById("productColor").textContent =
-    product.Colors[0].ColorName;
-  document.getElementById("productDesc").innerHTML =
-    `${product.DescriptionHtmlSimple}`;
-
-  document.getElementById("addToCart").dataset.id = product.Id;
+        <div class="product-detail__add">
+          <button id="addToCart" data-id="${product.Id}">Add to Cart</button>
+        </div>
+    `;
+  }
 }

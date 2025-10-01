@@ -66,6 +66,8 @@ export async function loadHeaderFooter() {
 
   renderWithTemplate(headerTemplate, headerElement);
   renderWithTemplate(footerTemplate, footerElement);
+
+  searchProducts();
 }
 
 function getNumberItems() {
@@ -90,4 +92,32 @@ export function displayItemCount() {
   setTimeout(() => {
     clearInterval(loadElement);
   }, 1000);
+}
+
+function searchProducts() {
+  const sButton = document.getElementById("searchButton");
+  sButton.addEventListener("click", function (e) {
+    const searchTerm = document.getElementById("searchInput").value;
+
+    performSearch(searchTerm);
+  });
+}
+
+export function performSearch(term) {
+  console.log("Performing search for:", term);
+
+  // Create the URL with the search term as a query parameter
+  const searchParams = new URLSearchParams();
+  searchParams.append("category", term);
+
+  // Get the current URL without the query string
+  const baseUrl = `${window.location.origin}/`;
+  console.log("Base URL:", baseUrl);
+
+  // Construct the full URL
+  const newUrl = `product-listing/index.html?${searchParams.toString()}`;
+  console.log("New URL:", newUrl);
+
+  // Navigate to the new URL
+  window.location.href = baseUrl + newUrl;
 }

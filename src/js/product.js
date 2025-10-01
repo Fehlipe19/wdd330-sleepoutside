@@ -5,11 +5,12 @@ import {
   loadHeaderFooter,
   displayItemCount,
 } from "./utils.mjs";
-import ProductData from "./ProductData.mjs";
+import ExternalServices from "./ExternalServices.mjs";
 import ProductDetails from "./ProductDetails.mjs";
 
-export const dataSource = new ProductData("tents");
 export const productId = getParam("product");
+
+const dataSource = new ExternalServices();
 
 const product = new ProductDetails(productId, dataSource);
 
