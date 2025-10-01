@@ -67,3 +67,27 @@ export async function loadHeaderFooter() {
   renderWithTemplate(headerTemplate, headerElement);
   renderWithTemplate(footerTemplate, footerElement);
 }
+
+function getNumberItems() {
+  const itemsInCart = getLocalStorage("so-cart");
+  if (itemsInCart.length >= 1) {
+    return itemsInCart.length;
+  } else {
+    return "0";
+  }
+}
+
+export function displayItemCount() {
+  const itemCount = getNumberItems();
+  console.log(itemCount);
+  const loadElement = setInterval(() => {
+    const countElement = document.getElementById("item-count");
+    countElement.innerHTML = `${itemCount}`;
+    const cartLogo = document.querySelector(".cart");
+    cartLogo.appendChild(countElement);
+  }, 200);
+  console.log(countElement);
+  setTimeout(() => {
+    clearInterval(loadElement);
+  }, 1000);
+}

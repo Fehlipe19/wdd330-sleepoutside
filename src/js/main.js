@@ -1,6 +1,6 @@
 import ProductData from "./ProductData.mjs";
 import ProductList from "./ProductList.mjs";
-import { loadHeaderFooter } from "./utils.mjs";
+import { loadHeaderFooter, displayItemCount } from "./utils.mjs";
 
 loadHeaderFooter();
 
@@ -13,3 +13,4 @@ const productList = new ProductList("Tents", dataSource, element);
 // console.log(productList.init());
 
 productList.init();
+displayItemCount();

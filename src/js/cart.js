@@ -1,10 +1,14 @@
-import { getLocalStorage, loadHeaderFooter } from "./utils.mjs";
+import {
+  getLocalStorage,
+  loadHeaderFooter,
+  displayItemCount,
+} from "./utils.mjs";
 
 function renderCartContents() {
   const cartItems = getLocalStorage("so-cart");
   const htmlItems = cartItems.map((item) => cartItemTemplate(item));
   document.querySelector(".product-list").innerHTML = htmlItems.join("");
-
+  // console.log(cartItems.length);
   renderCartTotal(cartItems);
 }
 
@@ -39,7 +43,7 @@ function renderCartTotal(cartList) {
   const priceItems = cartList.map((item) => calculateTotal(item));
   const totalDisplaySection = document.querySelector(".products");
 
-  console.log(priceItems);
+  // console.log(priceItems);
   priceItems.forEach((element) => {
     total += element;
   });
@@ -53,3 +57,7 @@ function renderCartTotal(cartList) {
 
 loadHeaderFooter();
 renderCartContents();
+// document.addEventListener("DOMContentLoaded", displayItemCount);
+// setInterval(() => {
+displayItemCount();
+// }, 200);
