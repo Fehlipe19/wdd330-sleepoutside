@@ -3,7 +3,7 @@
 ## WDD 330 - Web Frontend Development II
 
 **Project Link\***
-joyful-buttercream-dd181b.netlify.app
+https://silly-genie-671569.netlify.app/
 
 ### ⛺ SleepOutside Starter Code
 
